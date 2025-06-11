@@ -11,15 +11,24 @@ class App extends Component {
     this.state = {
       selectedTab: 'home',
     };
+    console.log('App started with state:', this.state);  // See initial state
   }
   renderShippingRequests() {
     return (<Board />);
   }
 
+  // Sending this info to Navigation component through props
   renderNavigation() {
+    console.log('App is passing changeTab function to Navigation');  // Added log
     return (<Navigation
-      onClick={(tabName) => this.changeTab(tabName)}
-      selectedTab={this.state.selectedTab}
+      selectedTab={this.state.selectedTab}                // Passing data to navigation which tab is selected
+      onClick={(tabName) => 
+       {
+        console.log('Navigation is calling the function App gave it');  // Added log
+        this.changeTab(tabName)
+        }
+      }      // Gives Navigation a way to request changes, when you call onlick run my changetab
+    
       />);
   }
 
@@ -45,9 +54,14 @@ class App extends Component {
   }
 
   changeTab(tabName) {
+    console.log('App received request to change to:', tabName);  // See what Navigation sent
     this.setState({
       selectedTab: tabName,
+      
+    }, () => {
+      console.log('App state is now:', this.state);  // See new state after change
     });
+    
   }
 }
 
